@@ -1,20 +1,34 @@
+import axios from "axios";
 import React, { useContext, useState } from "react";
 
 const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
-    const [change, setChange] = useState("");
-    const [search, setSearch] = useState(false);
-
+    const [search, setSearch] = useState("");
+    const [res, setRes] = useState("");
     const handleChange = (e) => {
-        setChange(e.target.value);
+        setSearch(e.target.value);
+    };
+    const handleSearch = (e) => {
+        e.preventDefault();
+        fetchUser();
+    };
+    const fetchUser = () => {
+        axios
+            .get(`https://api.github.com/users/${search}`)
+            .then((response) => {
+                const data = response.data;
+                setRes(data);
+            })
+            .catch((err) => console.log(err));
     };
     return (
         <AppContext.Provider
             value={{
-                change,
                 search,
-                setChange,
+                res,
                 setSearch,
+                handleChange,
+                handleSearch,
             }}
         >
             {children}
