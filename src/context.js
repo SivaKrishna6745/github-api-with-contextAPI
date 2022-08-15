@@ -11,6 +11,7 @@ const AppProvider = ({ children }) => {
     const handleSearch = (e) => {
         e.preventDefault();
         fetchUser();
+        setSearch("");
     };
     const fetchUser = () => {
         axios
